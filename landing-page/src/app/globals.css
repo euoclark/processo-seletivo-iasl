@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Fragment+Mono&display=swap');
+@import "tailwindcss";
+
+/* ============================================
+   IA SEM LIMITES — Design Tokens (Oficial)
+   ============================================ */
+:root {
+  --bg-white: #fff;
+  --bg-card: #f0f0f0;
+  --bg-dark: #131315;
+  --bg-dark-card: #1e1e21;
+
+  --text-primary: #131315;
+  --text-secondary: #666667;
+  --text-tertiary: rgba(19, 19, 21, 0.4);
+
+  --border: rgba(19, 19, 21, 0.1);
+  --border-mid: rgba(19, 19, 21, 0.12);
+  --border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Rainbow gradient colors */
+  --color-1: 0 100% 63%;
+  --color-2: 270 100% 63%;
+  --color-3: 210 100% 63%;
+  --color-4: 195 100% 63%;
+  --color-5: 90 100% 63%;
+}
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+#inscricao {
+  scroll-margin-top: 90px;
+}
+
+body {
+  background: var(--bg-white);
+  color: var(--text-primary);
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   Rainbow Button (exact replica)
+   ============================================ */
+@keyframes rainbow {
+  0% { background-position: 0%; }
+  to { background-position: 200%; }
+}
+
+.btn-rainbow {
+  color: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  background-size: 200%;
+  background-origin: border-box;
+  background-clip: padding-box, border-box, border-box;
+  background-image:
+    linear-gradient(#121213, #121213),
+    linear-gradient(#121213 50%, rgba(18, 18, 19, 0.6) 80%, transparent),
+    linear-gradient(90deg,
+      hsl(var(--color-1)),
+      hsl(var(--color-5)),
+      hsl(var(--color-3)),
+      hsl(var(--color-4)),
+      hsl(var(--color-2))
+    );
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  height: 48px;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  animation: 2s linear infinite rainbow;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-rainbow::before {
+  content: "";
+  background-image: linear-gradient(90deg,
+    hsl(var(--color-1)),
+    hsl(var(--color-5)),
+    hsl(var(--color-3)),
+    hsl(var(--color-4)),
+    hsl(var(--color-2))
+  );
+  filter: blur(12px);
+  z-index: -1;
+  background-size: 200%;
+  width: 60%;
+  height: 20%;
+  animation: 2s linear infinite rainbow;
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-rainbow:hover { opacity: 0.9; }
+.btn-rainbow:active { transform: translateY(1px); }
+
+/* Secondary Button */
+.btn-secondary {
+  color: var(--text-primary);
+  background: var(--bg-white);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  height: 48px;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  background: var(--bg-card);
+}
+
+/* ============================================
+   Card styles (official)
+   ============================================ */
+.card {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-gray {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-dark {
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-dark);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ============================================
+   Eyebrow label (official)
+   ============================================ */
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Fragment Mono', monospace;
+  font-size: 11px;
+}
+
+.eyebrow::before {
+  content: "▶";
+  font-size: 8px;
+}
+
+/* ============================================
+   Form Input Styles
+   ============================================ */
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: 'Inter Tight', sans-serif;
+  outline: none;
+  transition: all 0.15s;
+}
+
+.form-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.form-input:focus {
+  background: #fff;
+  border-color: rgba(19, 19, 21, 0.3);
+  box-shadow: 0 0 0 3px rgba(19, 19, 21, 0.06);
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+/* ============================================
+   Hero Section Particle Canvas
+   ============================================ */
+.hero-canvas-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Stat numbers */
+.stat-number {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+/* Container */
+.container-site {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
+/* ============================================
+   Mobile & Responsive Adjustments
+   ============================================ */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.nav-date-badge {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Fragment Mono', monospace;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .nav-date-badge {
+    display: none !important;
+  }
+  .container-site {
+    padding: 0 16px;
+  }
+  #inscricao.card {
+    padding: 20px 16px !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+}
+
+/* ============================================
+   Layout & Hero Grid Responsiveness
+   ============================================ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hero-grid > * {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.nav-date-badge {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: 'Fragment Mono', monospace;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .nav-date-badge {
+    display: none !important;
+  }
+  .container-site {
+    padding: 0 16px;
+  }
+  #inscricao.card {
+    padding: 20px 16px !important;
+  }
+}

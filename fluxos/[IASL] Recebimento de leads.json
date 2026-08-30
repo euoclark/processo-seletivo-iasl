@@ -1,0 +1,889 @@
+{
+  "name": "[IASL] Recebimento de leads",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "landing-page",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "3292208e-2ec3-4055-93c2-334410391114",
+      "name": "Webhook",
+      "webhookId": "e79d93fe-0147-462b-94b3-b9369d1337b1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1614110973,
+          "mode": "list",
+          "cachedResultName": "Descartados",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=1614110973"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.nome }}",
+            "Email": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.email }}",
+            "Telefone": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.whatsapp_formatado }}",
+            "Cargo": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.cargo }}",
+            "Faturamento": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.faturamento_mensal }}",
+            "Motivo do descarte": "={{ $json.motivo_descarte }}",
+            "Usa automação?": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.ja_usa_automacao }}",
+            "Desafio": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.principal_desafio }}",
+            "Prazo": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.prazo_implementar }}",
+            "Data de conversão": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data de conversão",
+              "displayName": "Data de conversão",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Faturamento",
+              "displayName": "Faturamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Desafio",
+              "displayName": "Desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Usa automação?",
+              "displayName": "Usa automação?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prazo",
+              "displayName": "Prazo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivo do descarte",
+              "displayName": "Motivo do descarte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1392,
+        -16
+      ],
+      "id": "eda6f835-264e-403d-81d1-f3f1c069fb6c",
+      "name": "Salva na página \"Descartados\"",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Tabela de regras e pontuação (editável)\n\nconst REGRAS = {\n  faturamento: {\n    acima_100k: 30,      // Acima de R$ 100.000\n    de_10k_a_50k: 15,    // R$ 10.001 a R$ 50.000 (e zona de transição até 100k)\n    ate_10k: 0           // Até R$ 10.000\n  },\n  cargo: {\n    socio_ceo_diretor: 25,\n    gerente_coordenador: 15,\n    analista: 5,\n    outro: 0\n  },\n  prazo: {\n    imediato: 20,\n    ate_3_meses: 10,\n    sem_previsao: 0\n  },\n  automacao: {\n    sim_quero_melhorar: 15,\n    nao: 10\n  },\n  trilhas: {\n    nota_corte_quente: 60,  // >= 60 pontos\n    nota_corte_morno: 30    // 30 a 59 pontos (abaixo de 30 = Frio)\n  }\n};\n\n\n// Processamento e higienização\n\nconst items = $input.all();\nconst results = [];\n\n// Lista de domínios fakes comuns\nconst dominiosFakes = ['teste.com', 'test.com', 'exemplo.com', 'asdf.com', 'mailinator.com', 'tempmail.com'];\n// Regex RFC para e-mails válidos\nconst emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;\n\nfor (const item of items) {\n  const data = item.json.body || item.json;\n\n  // 1. Normalização de dados\n  const nome = (data.nome || '').trim();\n  const primeiroNome = nome.split(' ')[0] || 'Cliente';\n  const email = (data.email || '').trim().toLowerCase();\n  \n  // Limpeza de telefone\n  let phoneDigits = String(data.whatsapp || '').replace(/\\D/g, '');\n  let rawPhone = '';\n  let phoneValido = true;\n\n  if (phoneDigits.startsWith('55') && (phoneDigits.length === 12 || phoneDigits.length === 13)) {\n    rawPhone = phoneDigits;\n  } else if (phoneDigits.length === 10 || phoneDigits.length === 11) {\n    rawPhone = '55' + phoneDigits; // Adiciona DDI 55\n  } else {\n    phoneValido = false;\n    rawPhone = phoneDigits;\n  }\n\n  // Separação do DDD e do Número do Assinante\n  const phoneNacional = rawPhone.startsWith('55') ? rawPhone.slice(2) : rawPhone;\n  const ddd = phoneNacional.slice(0, 2);\n  const numeroAssinante = phoneNacional.slice(2); // Os 8 ou 9 dígitos DEPOIS do DDD\n\n  // Regras de detecção de Telefone Fake\n  const isDDDInvalido = ddd.startsWith('0') || parseInt(ddd, 10) < 11 || parseInt(ddd, 10) > 99;\n  const isNumeroRepetido = /^(\\d)\\1+$/.test(numeroAssinante) || /^(\\d)\\1+$/.test(phoneNacional); // Pega 11999999999, 1100000000, etc.\n  const isNumeroSequencial = '01234567890123456789'.includes(numeroAssinante) || '9876543210987654321'.includes(numeroAssinante);\n  const isTamanhoInvalido = numeroAssinante.length < 8 || numeroAssinante.length > 9;\n  const isCelularSemNove = numeroAssinante.length === 9 && !numeroAssinante.startsWith('9'); // Todo celular de 9 dígitos no BR começa com 9\n\n  const isPhoneFake = !phoneValido || isDDDInvalido || isNumeroRepetido || isNumeroSequencial || isTamanhoInvalido || isCelularSemNove;\n\n  const cargo = (data.cargo || '').trim();\n  const faturamento = (data.faturamento_mensal || '').trim();\n  const desafio = (data.principal_desafio || '').trim();\n  const automacao = (data.ja_usa_automacao || '').trim();\n  const prazo = (data.prazo_implementar || '').trim();\n  \n  // Validação segura do consentimento (Opt-in)\n  const optin = Boolean(\n    data.optin === true || \n    data.optin === 'true' || \n    data.optin === 1 || \n    data.optin === '1' ||\n    String(data.optin).toLowerCase() === 'sim'\n  );\n\n  // 2. Validação e Critérios de Descarte\n  const emailValido = emailRegex.test(email);\n  const dominioLead = email.split('@')[1] || '';\n  const isDominioFake = dominiosFakes.includes(dominioLead);\n  const isNomeTeste = ['teste', 'test', 'asdf', 'qwerty', 'admin', 'abc'].includes(nome.toLowerCase());\n  const isEmailTeste = email.startsWith('teste@') || email.startsWith('test@');\n\n  let elegivel = true;\n  let motivoDescarte = null;\n\n  if (!optin) {\n    elegivel = false;\n    motivoDescarte = 'Sem consentimento LGPD (optin = false)';\n  } else if (!email || !emailValido || isDominioFake || isEmailTeste) {\n    elegivel = false;\n    motivoDescarte = 'E-mail inválido ou fictício';\n  } else if (isPhoneFake) {\n    elegivel = false;\n    motivoDescarte = 'WhatsApp inválido ou fictício (dígitos repetidos, sequenciais ou sem DDD)';\n  } else if (!nome || nome.length < 2 || isNomeTeste) {\n    elegivel = false;\n    motivoDescarte = 'Nome ausente ou incompleto';\n  }\n\n  // 3. Cálculo de Pontuação (Lead Scoring)\n  let score = 0;\n\n  if (elegivel) {\n    // A) Faturamento Mensal\n    const fatLower = faturamento.toLowerCase();\n    if (fatLower.includes('acima de') || fatLower.includes('100.000') || fatLower.includes('100k') || fatLower.includes('200')) {\n      score += REGRAS.faturamento.acima_100k;\n    } else if (fatLower.includes('10.001') || fatLower.includes('50.000') || fatLower.includes('50k') || fatLower.includes('50.001 a 100.000')) {\n      score += REGRAS.faturamento.de_10k_a_50k;\n    } else {\n      score += REGRAS.faturamento.ate_10k;\n    }\n\n    // B) Cargo ou Papel\n    const cargoLower = cargo.toLowerCase();\n    if (cargoLower.includes('sócio') || cargoLower.includes('socio') || cargoLower.includes('ceo') || cargoLower.includes('diretor') || cargoLower.includes('fundador') || cargoLower.includes('owner')) {\n      score += REGRAS.cargo.socio_ceo_diretor;\n    } else if (cargoLower.includes('gerente') || cargoLower.includes('coordenador') || cargoLower.includes('head') || cargoLower.includes('líder') || cargoLower.includes('lider')) {\n      score += REGRAS.cargo.gerente_coordenador;\n    } else if (cargoLower.includes('analista') || cargoLower.includes('consultor') || cargoLower.includes('especialista')) {\n      score += REGRAS.cargo.analista;\n    } else {\n      score += REGRAS.cargo.outro;\n    }\n\n    // C) Prazo para Implementar\n    const prazoLower = prazo.toLowerCase();\n    if (prazoLower.includes('imediato') || prazoLower.includes('urgente') || prazoLower.includes('já') || prazoLower.includes('próximas semanas')) {\n      score += REGRAS.prazo.imediato;\n    } else if (prazoLower.includes('3 meses') || prazoLower.includes('curto prazo')) {\n      score += REGRAS.prazo.ate_3_meses;\n    } else {\n      score += REGRAS.prazo.sem_previsao;\n    }\n\n    // D) Já usa Automação\n    const autoLower = automacao.toLowerCase();\n    if (autoLower.includes('sim') || autoLower.includes('melhorar') || autoLower.includes('rodando')) {\n      score += REGRAS.automacao.sim_quero_melhorar;\n    } else if (autoLower.includes('não') || autoLower.includes('nao')) {\n      score += REGRAS.automacao.nao;\n    }\n  }\n\n  // 4. Classificação da Trilha\n  let trilha = 'Descartado';\n  if (elegivel) {\n    if (score >= REGRAS.trilhas.nota_corte_quente) {\n      trilha = 'Quente';\n    } else if (score >= REGRAS.trilhas.nota_corte_morno) {\n      trilha = 'Morno';\n    } else {\n      trilha = 'Frio';\n    }\n  }\n\n  // 5. Retorno Padronizado\n  results.push({\n    json: {\n      id: data.id || ('lead_' + Date.now()),\n      data_cadastro: data.created_at || new Date().toISOString(),\n      nome,\n      primeiro_nome: primeiroNome,\n      email,\n      whatsapp_formatado: rawPhone,\n      cargo,\n      faturamento_mensal: faturamento,\n      principal_desafio: desafio,\n      ja_usa_automacao: automacao,\n      prazo_implementar: prazo,\n      optin,\n      elegivel,\n      motivo_descarte: motivoDescarte,\n      pontuacao: score,\n      trilha\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        0
+      ],
+      "id": "496d5dba-d757-4d07-bb64-3cdd470b10c6",
+      "name": "Tratamento de dados e o cálculo da pontuação"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Elegíveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.nome }}",
+            "Email": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.email }}",
+            "Telefone": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.whatsapp_formatado }}",
+            "Cargo": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.cargo }}",
+            "Faturamento": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.faturamento_mensal }}",
+            "Desafio": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.principal_desafio}}",
+            "Usa automação?": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.ja_usa_automacao }}",
+            "Prazo": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.prazo_implementar }}",
+            "Pontuação": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.pontuacao }}",
+            "Trilha": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.trilha }}",
+            "Data de conversão": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data de conversão",
+              "displayName": "Data de conversão",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Faturamento",
+              "displayName": "Faturamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Desafio",
+              "displayName": "Desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Usa automação?",
+              "displayName": "Usa automação?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prazo",
+              "displayName": "Prazo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pontuação",
+              "displayName": "Pontuação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Trilha",
+              "displayName": "Trilha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        368
+      ],
+      "id": "495e533b-f21e-449e-ba63-cecbcacf2ea0",
+      "name": "Salva na página \"Elegíveis\"",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "tableId": "leads_pendentes_sheets",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.nome }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.email }}"
+            },
+            {
+              "fieldId": "data_chegada",
+              "fieldValue": "={{ $now.toISO() }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.whatsapp_formatado }}"
+            },
+            {
+              "fieldId": "cargo",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.cargo }}"
+            },
+            {
+              "fieldId": "faturamento",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.faturamento_mensal }}"
+            },
+            {
+              "fieldId": "desafio",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.principal_desafio }}"
+            },
+            {
+              "fieldId": "usa_automacao",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.ja_usa_automacao }}"
+            },
+            {
+              "fieldId": "prazo",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.prazo_implementar }}"
+            },
+            {
+              "fieldId": "pontuacao",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.pontuacao }}"
+            },
+            {
+              "fieldId": "trilha",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.trilha }}"
+            },
+            {
+              "fieldId": "motivo_descarte",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.motivo_descarte }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        416,
+        368
+      ],
+      "id": "cd1e98f2-1a18-4e12-9cb7-52bacc136d6e",
+      "name": "Salva no supabase pra ser reenviado depois",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32ca80e5-6c8f-412e-b3e6-f7fec024888a",
+              "name": "motivo_descarte",
+              "value": "Lead duplicado",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1072,
+        144
+      ],
+      "id": "4095b227-45a0-4a50-9c58-49d088471076",
+      "name": "Renomeia o valor da variável \"motivo_descarte\""
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cee86332-bb7b-48d5-a0ab-dec9f2742d7c",
+              "leftValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.elegivel }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "6f850160-5e29-46fc-9764-69ee797a4cff",
+      "name": "Lead inelegivel?"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos e fila de reenvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Elegíveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefone",
+              "lookupValue": "={{ $json.whatsapp_formatado }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        176
+      ],
+      "id": "8b35449c-2bb5-49fa-913a-823b36b7c0c5",
+      "name": "Consulta lead no banco de dados",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b96feb35-da80-4222-a82b-7725097ceff5",
+              "leftValue": "={{ $json.Telefone }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        160
+      ],
+      "id": "7ba6ae5b-7b23-460b-9e17-519f8ac34dd3",
+      "name": "Já converteu antes?"
+    },
+    {
+      "parameters": {
+        "tableId": "leads_pendentes_sheets",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.nome }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.email }}"
+            },
+            {
+              "fieldId": "data_chegada",
+              "fieldValue": "={{ $now.toISO() }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.whatsapp_formatado }}"
+            },
+            {
+              "fieldId": "cargo",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.cargo }}"
+            },
+            {
+              "fieldId": "faturamento",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.faturamento_mensal }}"
+            },
+            {
+              "fieldId": "desafio",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.principal_desafio }}"
+            },
+            {
+              "fieldId": "usa_automacao",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.ja_usa_automacao }}"
+            },
+            {
+              "fieldId": "prazo",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').first().json.prazo_implementar }}"
+            },
+            {
+              "fieldId": "pontuacao",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.pontuacao }}"
+            },
+            {
+              "fieldId": "trilha",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.trilha }}"
+            },
+            {
+              "fieldId": "motivo_descarte",
+              "fieldValue": "={{ $('Tratamento de dados e o cálculo da pontuação').item.json.motivo_descarte }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        0
+      ],
+      "id": "eab9d3d7-56fa-4fb7-96c0-ac49d07952ec",
+      "name": "Salva no supabase para ser reenviado",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Justificativa\n\nEste nó foi duplicado apenas para melhorar a organização visual do fluxo =)",
+        "height": 304,
+        "width": 352,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        -128
+      ],
+      "id": "8e6f4715-a210-4209-bdc7-0b450dafe196",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Fluxo de recebimento de leads da Landing Page",
+        "height": 976,
+        "width": 2464,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        -272
+      ],
+      "id": "7a3059c8-8bb1-45b0-94d0-fe6f1d58f368",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "q7HqZ2dL256u3ASF",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/q7HqZ2dL256u3ASF",
+          "cachedResultName": "[IASL] Disparo de WhatsApp"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1072,
+        352
+      ],
+      "id": "219213a1-5ee3-4ac0-8f64-ce59ba25f0a1",
+      "name": "Envia para o subfluxo de disparo"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "clark-testeiasemlimites.app.n8n.cloud",
+            "user-agent": "node",
+            "content-length": "410",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "accept-language": "*",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "3.237.237.61",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a32c523fdebdd644-IAD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "sec-fetch-mode": "cors",
+            "x-forwarded-for": "3.237.237.61, 172.70.34.104",
+            "x-forwarded-host": "clark-testeiasemlimites.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-33-6548f7bf9d-4bqc7",
+            "x-invocation-id": "gru1::8xp4q-1788014535184-908ae765a364",
+            "x-is-trusted": "yes",
+            "x-real-ip": "3.237.237.61",
+            "x-vercel-id": "gru1::8xp4q-1788014535184-908ae765a364"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "id": "lead_1788014535517_t0eqk",
+            "created_at": "2026-08-29T14:42:15.517Z",
+            "nome": "teste",
+            "email": "teste@gmail.com",
+            "whatsapp": "(14) 99756-0730",
+            "cargo": "Sócio, CEO ou Diretor",
+            "faturamento_mensal": "Até R$ 10.000",
+            "principal_desafio": "Leads desqualificados tomando tempo da equipe",
+            "ja_usa_automacao": "Sim, mas quero melhorar",
+            "prazo_implementar": "Em até 3 meses",
+            "optin": true,
+            "pontuacao": 50,
+            "trilha": "Morno"
+          },
+          "webhookUrl": "https://clark-testeiasemlimites.app.n8n.cloud/webhook/landing-page",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Tratamento de dados e o cálculo da pontuação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tratamento de dados e o cálculo da pontuação": {
+      "main": [
+        [
+          {
+            "node": "Lead inelegivel?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva na página \"Elegíveis\"": {
+      "main": [
+        [
+          {
+            "node": "Envia para o subfluxo de disparo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva no supabase pra ser reenviado depois",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva na página \"Descartados\"": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Salva no supabase para ser reenviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renomeia o valor da variável \"motivo_descarte\"": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead inelegivel?": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Consulta lead no banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta lead no banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Já converteu antes?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva no supabase pra ser reenviado depois",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já converteu antes?": {
+      "main": [
+        [
+          {
+            "node": "Renomeia o valor da variável \"motivo_descarte\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva na página \"Elegíveis\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d7f363ab-85ff-4b0e-b59e-b6a14828aa3a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c604a34415fc2332b35766d68c39e77683d6cc0d21b6502df169f58f20961a9"
+  },
+  "nodeGroups": [],
+  "id": "gI0fAL4v6hNTo49W",
+  "tags": []
+}

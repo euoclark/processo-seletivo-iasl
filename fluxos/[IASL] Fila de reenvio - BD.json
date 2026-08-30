@@ -1,0 +1,775 @@
+{
+  "name": "[IASL] Fila de reenvio - BD",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "e3170871-d659-452a-96f4-06f301efb1e3",
+      "name": "A cada 15min"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "leads_pendentes_sheets",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        192,
+        0
+      ],
+      "id": "7c76f050-fbc6-4c25-b46a-8e34ffa5c566",
+      "name": "Consulta a fila de reenvio",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        768,
+        0
+      ],
+      "id": "ff4029a5-8766-455e-a436-5dd82dcb349d",
+      "name": "Passa um por vez"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos e fila de reenvio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Elegíveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Telefone",
+              "lookupValue": "={{ $json.telefone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        336
+      ],
+      "id": "35137fcb-fee6-4e1a-a367-aea714f40aa7",
+      "name": "Consulta lead no banco principal",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1614110973,
+          "mode": "list",
+          "cachedResultName": "Descartados",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=1614110973"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $('Passa um por vez').item.json.nome }}",
+            "Email": "={{ $('Passa um por vez').item.json.email }}",
+            "Telefone": "={{ $('Passa um por vez').item.json.telefone }}",
+            "Cargo": "={{ $('Passa um por vez').item.json.cargo }}",
+            "Faturamento": "={{ $('Passa um por vez').item.json.faturamento }}",
+            "Motivo do descarte": "={{ $json.motivo_descarte }}",
+            "Usa automação?": "={{ $('Passa um por vez').item.json.usa_automacao }}",
+            "Desafio": "={{ $('Passa um por vez').item.json.desafio }}",
+            "Prazo": "={{ $('Passa um por vez').item.json.prazo }}",
+            "Data de conversão": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data de conversão",
+              "displayName": "Data de conversão",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Faturamento",
+              "displayName": "Faturamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Desafio",
+              "displayName": "Desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Usa automação?",
+              "displayName": "Usa automação?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prazo",
+              "displayName": "Prazo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivo do descarte",
+              "displayName": "Motivo do descarte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1600,
+        144
+      ],
+      "id": "c03b6e8c-f440-4940-b7ed-9886376b26f6",
+      "name": "Salva na página \"Descartados\"",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0",
+          "mode": "list",
+          "cachedResultName": "[IASL] Leads novos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Elegíveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G3YMqp2G6i28veO_2DBZyrad_Ou9nKky9eIIljLeJH0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Mensagem": "A enviar",
+            "Nome": "={{ $('Passa um por vez').item.json.nome }}",
+            "Email": "={{ $('Passa um por vez').item.json.email }}",
+            "Telefone": "={{ $('Passa um por vez').item.json.telefone }}",
+            "Cargo": "={{ $('Passa um por vez').item.json.cargo }}",
+            "Faturamento": "={{ $('Passa um por vez').item.json.faturamento }}",
+            "Desafio": "={{ $('Passa um por vez').item.json.desafio }}",
+            "Usa automação?": "={{ $('Passa um por vez').item.json.usa_automacao }}",
+            "Prazo": "={{ $('Passa um por vez').item.json.prazo }}",
+            "Pontuação": "={{ $('Passa um por vez').item.json.pontuacao }}",
+            "Trilha": "={{ $('Passa um por vez').item.json.trilha }}",
+            "Data de conversão": "={{ $('Passa um por vez').item.json.data_chegada }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data de conversão",
+              "displayName": "Data de conversão",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Faturamento",
+              "displayName": "Faturamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Desafio",
+              "displayName": "Desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Usa automação?",
+              "displayName": "Usa automação?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prazo",
+              "displayName": "Prazo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pontuação",
+              "displayName": "Pontuação",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Trilha",
+              "displayName": "Trilha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        528
+      ],
+      "id": "99ac712a-f5db-41a0-8b06-a18e25dc2109",
+      "name": "Salva na página \"Elegíveis\"",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "15fd035b-64ef-42c2-aa83-bd12bff18cd2",
+              "leftValue": "={{ $json.motivo_descarte }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        160
+      ],
+      "id": "dd916bac-a05e-4fb2-8e19-3c6910212b26",
+      "name": "Lead descartado?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fcdca87b-d5e2-4238-88f1-24e4b09bd0a6",
+              "leftValue": "={{ $json.enviado }}",
+              "rightValue": "enviado",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        0
+      ],
+      "id": "dae2355e-b2cf-4117-96ea-a8084897ce46",
+      "name": "Filtra leads que já foram enviados"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "leads_pendentes_sheets",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Passa um por vez').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "enviado",
+              "fieldValue": "enviado"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        528
+      ],
+      "id": "84e09729-99a1-4fed-beac-7b8b1b6ae2fb",
+      "name": "Atualiza coluna \"enviado\"",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "51407bfe-190f-4e38-ad12-5a23e14262ab",
+              "leftValue": "={{ $json.Telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        336
+      ],
+      "id": "4f534212-a0cd-454b-b89b-9888e25a163a",
+      "name": "Já converteu antes?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32ca80e5-6c8f-412e-b3e6-f7fec024888a",
+              "name": "motivo_descarte",
+              "value": "Lead duplicado",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1296,
+        320
+      ],
+      "id": "d42aff02-256f-4bd6-8a11-591034e6cc3f",
+      "name": "Renomeia o valor da variável \"motivo_descarte\""
+    },
+    {
+      "parameters": {
+        "content": "## Fila de reenvio do banco de dados",
+        "height": 912,
+        "width": 2288,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "ee8b1e25-a605-4c2d-a6c2-1347cbae98fa",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "A cada 15min": {
+      "main": [
+        [
+          {
+            "node": "Consulta a fila de reenvio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta a fila de reenvio": {
+      "main": [
+        [
+          {
+            "node": "Filtra leads que já foram enviados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Passa um por vez": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Lead descartado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta lead no banco principal": {
+      "main": [
+        [
+          {
+            "node": "Já converteu antes?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva na página \"Descartados\"": {
+      "main": [
+        [
+          {
+            "node": "Atualiza coluna \"enviado\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Salva na página \"Elegíveis\"": {
+      "main": [
+        [
+          {
+            "node": "Atualiza coluna \"enviado\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead descartado?": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Consulta lead no banco principal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra leads que já foram enviados": {
+      "main": [
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza coluna \"enviado\"": {
+      "main": [
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Já converteu antes?": {
+      "main": [
+        [
+          {
+            "node": "Renomeia o valor da variável \"motivo_descarte\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva na página \"Elegíveis\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renomeia o valor da variável \"motivo_descarte\"": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ed8ada2d-a6f1-4b9f-8470-55c7b71d2e5d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c604a34415fc2332b35766d68c39e77683d6cc0d21b6502df169f58f20961a9"
+  },
+  "nodeGroups": [],
+  "id": "L3X5RHFPNp4f1mVJ",
+  "tags": []
+}

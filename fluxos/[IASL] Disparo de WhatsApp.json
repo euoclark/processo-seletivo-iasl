@@ -1,0 +1,465 @@
+{
+  "name": "[IASL] Disparo de WhatsApp",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Quando chamado por um outro fluxo",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -16,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -16,
+        672
+      ],
+      "id": "5f2b57ee-e21d-447d-b331-09258a874ee9",
+      "name": "Passa um lead por vez"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "539361e7-0cdd-443b-9887-6c96001a09bd",
+              "name": "Copy",
+              "value": "=Fala {{ ($json.nome || $json.Nome || '').split(' ')[0] }}, tudo bem? Aqui é da equipe da IA Sem Limites.\n\nRecebemos sua inscrição para o nosso webinário executivo.\n\nPara operações que buscam escala rápida, atender lead de forma manual no WhatsApp é perder vendas por tempo de resposta. Na aula fechada, vamos abrir os bastidores de esteiras que qualificam e vendem de forma automatizada.\n\nGaranta sua vaga na sala fechada por aqui: https://webinar.exemplo.com.br/automacao-whatsapp",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        768,
+        512
+      ],
+      "id": "718d91ee-8a8f-4847-b14b-9e5dde88da6d",
+      "name": "Define a copy para leads quentes"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f54b88ad-2a06-4895-9108-7e4d44cf72d0",
+              "name": "Copy",
+              "value": "=Olá {{ ($json.nome || $json.Nome || '').split(' ')[0] }}, tudo certo? Aqui é da equipe da IA Sem Limites!\n\nConfirmamos sua inscrição no webinário de automação no WhatsApp.\n\nMuitas empresas perdem tempo precioso com curiosos enquanto clientes prontos para comprar ficam esperando resposta. Na transmissão, vamos mostrar como criar uma triagem automática para sua equipe só atender quem tem real potencial de compra.\n\nAcesse o link para confirmar sua presença: https://webinar.exemplo.com.br/automacao-whatsapp",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        768,
+        688
+      ],
+      "id": "ee56819a-9f9c-443e-914a-4556f8a7c2c1",
+      "name": "Define a copy para leads mornos"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46909270-5450-4a8c-9d19-665622f3ef4b",
+              "name": "Copy",
+              "value": "=Oi {{ ($json.nome || $json.Nome || '').split(' ')[0] }}, como você está? Equipe da IA Sem Limites por aqui!\n\nQue legal ver seu interesse no nosso webinário prático de automação!\n\nSe você ainda gasta horas respondendo as mesmas dúvidas repetitivas e quer dar os primeiros passos para automatizar o seu WhatsApp do jeito certo, essa aula foi desenhada para você.\n\nO seu link de acesso à transmissão está aqui: https://webinar.exemplo.com.br/automacao-whatsapp",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        768,
+        864
+      ],
+      "id": "78525ce4-7836-4113-a527-b9b3a43f45b0",
+      "name": "Define a copy para leads frios"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.trilha || $json.Trilha }}",
+                    "rightValue": "Quente",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5e8297da-811f-44d5-b576-3dafc6b5558b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Quente"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f0670685-799f-4422-a0e8-8a8835484b1b",
+                    "leftValue": "={{ $json.trilha || $json.Trilha }}",
+                    "rightValue": "Morno",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Morno"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bbfe547f-4cfe-4d6c-8bdb-951caf03121d",
+                    "leftValue": "={{ $json.trilha || $json.Trilha }}",
+                    "rightValue": "Frio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Frio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        672
+      ],
+      "id": "eb38d64e-6dd8-4cfc-ad16-5b8f5caec40d",
+      "name": "Roteia por trilha"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://seudominio.com.br/message/sendText/instancia",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "apikey",
+              "value": "chave-api"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.whatsapp || $json.WhatsApp }}\",\n  \"textMessage\": {\n    \"text\": \"{{ $json.Copy }}\"\n  },\n  \"delay\": 1500,\n  \"linkPreview\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1280,
+        880
+      ],
+      "id": "5216c83b-9c40-46bf-a146-0d7b5645dcb3",
+      "name": "Realiza o disparo",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "tableId": "disparos_pendentes",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Passa um lead por vez').item.json.nome || $('Passa um lead por vez').item.json.Nome }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $('Passa um lead por vez').item.json.Email || $('Passa um lead por vez').item.json.email }}"
+            },
+            {
+              "fieldId": "data_chegada",
+              "fieldValue": "={{ $('Passa um lead por vez').item.json.timestamp || $json[\"Data de conversão\"]}}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Passa um lead por vez').item.json.Telefone || $('Passa um lead por vez').item.json.whatsapp }}"
+            },
+            {
+              "fieldId": "trilha",
+              "fieldValue": "={{ $('Passa um lead por vez').item.json.Trilha || $('Passa um lead por vez').item.json.trilha }}"
+            },
+            {
+              "fieldId": "mensagem",
+              "fieldValue": "={{ $json.Copy }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1088
+      ],
+      "id": "c52a02f5-9cd7-42d0-81d6-cae136c6fa31",
+      "name": "Salva no supabase para ser reenviado",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Sub-fluxo de disparos de WhatsApp",
+        "height": 976,
+        "width": 1648,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        352
+      ],
+      "id": "ace6b1fc-2bb8-44ee-8b2e-d6f78e82b8d6",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "amount": "={{ Math.floor(Math.random() * 26) + 20 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        688
+      ],
+      "id": "ec2fc157-76f4-4c46-b5a9-b92ee608237e",
+      "name": "Define o intervalo entre disparos",
+      "webhookId": "58be5ede-e4ac-46e4-87c3-abef9d2aceb6"
+    }
+  ],
+  "pinData": {
+    "Quando chamado por um outro fluxo": [
+      {
+        "json": {
+          "Mensagem": "A enviar",
+          "Nome": "Clark",
+          "Email": "clarkmmelo@hotmail.com",
+          "Telefone": "5514997560730",
+          "Cargo": "Gerente ou Coordenador",
+          "Faturamento": "R$ 10.001 a R$ 50.000",
+          "Desafio": "Leads desqualificados tomando tempo da equipe",
+          "Usa automação?": "Não",
+          "Prazo": "Em até 3 meses",
+          "Pontuação": 50,
+          "Trilha": "Morno",
+          "Data de conversão": "2026-08-29T00:34:01.064-03:00"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Quando chamado por um outro fluxo": {
+      "main": [
+        [
+          {
+            "node": "Passa um lead por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Passa um lead por vez": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Roteia por trilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define a copy para leads quentes": {
+      "main": [
+        [
+          {
+            "node": "Define o intervalo entre disparos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define a copy para leads mornos": {
+      "main": [
+        [
+          {
+            "node": "Define o intervalo entre disparos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define a copy para leads frios": {
+      "main": [
+        [
+          {
+            "node": "Define o intervalo entre disparos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteia por trilha": {
+      "main": [
+        [
+          {
+            "node": "Define a copy para leads quentes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Define a copy para leads mornos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Define a copy para leads frios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Realiza o disparo": {
+      "main": [
+        [
+          {
+            "node": "Passa um lead por vez",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salva no supabase para ser reenviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva no supabase para ser reenviado": {
+      "main": [
+        [
+          {
+            "node": "Passa um lead por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define o intervalo entre disparos": {
+      "main": [
+        [
+          {
+            "node": "Realiza o disparo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8fa83935-ed54-4e51-bc54-551f84d2ebc3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c604a34415fc2332b35766d68c39e77683d6cc0d21b6502df169f58f20961a9"
+  },
+  "nodeGroups": [],
+  "id": "q7HqZ2dL256u3ASF",
+  "tags": []
+}

@@ -1,0 +1,43 @@
+id,timestamp,nome,email,whatsapp,cargo,faturamento_mensal,principal_desafio,ja_usa_automacao,prazo_implementar,optin
+1,2026-03-09 08:14,Marina Costa,marina.costa@lojaverde.com.br,(11) 98812-4477,CEO,120000,Nao consigo escalar o atendimento no WhatsApp,Nao,Imediato,sim
+2,2026-03-09 08:31,ROBERTO ALMEIDA SANTOS,roberto@santosdistribuidora.com.br,+5541996633211,Diretor Comercial,85000,Time comercial perde lead por demora na resposta,Nao,Imediato,sim
+3,2026-03-09 09:02,juliana ferreira,juferreira88@gmail.com,(31) 9 9741-2200,Socia,"R$ 45.000,00",Quero automatizar a captacao de leads,Sim mas quero melhorar,Ate 3 meses,SIM
+4,2026-03-09 09:12,Carlos Eduardo Mendes,carlos.mendes@meta4log.com,(31) 9 8888-7777,Analista de Marketing,30000,Falta organizacao no cadastro dos leads,Nao,Ate 3 meses,sim
+5,2026-03-09 09:40,JosÃ© AndrÃ© Carvalho,jose.carvalho@grupocarvalho.com.br,+55 21 99633-1188,Socio,200000,Volume alto de leads sem qualificacao nenhuma,Sim mas quero melhorar,Imediato,sim
+6,2026-03-09 10:05,Fernanda Lima,fernanda@limaconsult.com.br,(11) 97744-9012,CEO,150000,Preciso reduzir custo de aquisicao,Nao,Imediato,nao
+7,2026-03-09 10:22,Diego Nascimento,diego.nascimento@vitrinedigital.com,(51) 98123-4590,Gerente de Marketing,60000,Nao tenho visibilidade do funil,Sim mas quero melhorar,Imediato,sim
+8,2026-03-09 10:47,Patricia Gomes,patricia.gomes@clinicaviva.com.br,(31) 3221-1234,Socia,90000,Agendamento manual toma tempo da equipe,Nao,Imediato,sim
+9,2026-03-09 11:03,Lucas Barreto,lucasbarreto@outlook.com,(31) 8765-4321,Autonomo,8000,Quero comecar a captar online,Nao,Ate 3 meses,sim
+10,2026-03-09 11:31,Sofia Miranda,sofia.miranda@expansaobr.com.br,+54 9 11 3456-7890,Diretora,180000,Operacao no Brasil e Argentina sem padronizacao,Sim mas quero melhorar,Imediato,sim
+11,2026-03-09 11:58,Anderson Freitas,anderson@freitasautopecas.com.br,(62) 99887-6655,Socio,prefiro nao informar,Muitos leads e pouca conversao,Nao,Imediato,sim
+12,2026-03-09 12:14,Bianca Souza,bianca.souza@grandevarejo.com.br,(11) 96633-2211,Estagiaria de Marketing,300000,Meu gestor pediu pra pesquisar ferramentas,Sim mas quero melhorar,Imediato,sim
+13,2026-03-09 12:40,Rodrigo Peixoto,rodrigo@peixotoimoveis.com.br,(48) 99112-3344,Socio,110000,Ja contratei a mentoria de voces em janeiro quero saber das novidades,Sim mas quero melhorar,Imediato,sim
+14,2026-03-09 13:02,Camila Duarte,camila.duarte@duartecosmeticos.com.br,(11) 98877-6543,CEO,140000,Quero estruturar antes de investir,Nao,6 meses,sim
+15,2026-03-09 13:19,teste teste,teste@teste.com,11999999999,teste,0,teste,Nao,Imediato,sim
+16,2026-03-09 13:45,Joao Silva,joao.silva@gmail,(85) 99445-1122,Gerente Comercial,55000,Perco lead no fim de semana,Nao,Imediato,sim
+17,2026-03-09 14:08,Renata Alves,renata@alvesarquitetura.com.br,(21) 97788-4433,Socia,38000,Atendimento so eu que faco,Nao,Ate 3 meses,sim
+18,2026-03-09 14:33,Carlos E. Mendes,carlos.mendes@meta4log.com,+5531988887777,Socio,uns 80k,Preciso escalar o comercial rapido,Sim mas quero melhorar,Imediato,sim
+19,2026-03-09 14:51,  Ana Paula Rodrigues  , ana.rodrigues@apreventos.com.br ,(11) 95566-7788,Coordenadora de Marketing,42000,Eventos com muito lead frio,Sim mas quero melhorar,Ate 3 meses,sim
+20,2026-03-09 15:12,Marcos Vinicius Tavares,marcos@tavaresagencia.com.br,(41) 99223-8877,Socio de agencia de marketing,95000,Quero entender como voces fazem pra aplicar nos meus clientes,Sim e esta funcionando bem,Imediato,sim
+21,2026-03-09 15:30,Leticia Barros,leticia.barros@nutribem.com.br,(31) 99334-5566,Gerente de Marketing,70000,Nutricao de leads inexistente,Nao,Imediato,nao
+22,2026-03-09 15:47,Gustavo Pinheiro,gustavo@pinheirologistica.com.br,(11) 98123-9900,Diretor de Operacoes,250000,Time de vendas sem processo,Nao,Imediato,sim
+23,2026-03-09 16:09,Tatiane Moura,tati.moura@hotmail.com,(19) 99887-1234,Analista,12000,Quero aprender automacao,Nao,Sem previsao,sim
+24,2026-03-09 16:28,Felipe Andrade,felipe.andrade@andradeconstrutora.com.br,(31) 99001-2233,Socio,160000,Leads chegam e ninguem responde,Nao,Imediato,SIM
+25,2026-03-09 16:44,Vanessa Cardoso,vanessa@cardosomodas.com.br,(11) 97001-8899,CEO,28000,Instagram gera lead mas nao converte,Nao,Ate 3 meses,sim
+26,2026-03-09 17:01,Eduardo Ramos,eduardo.ramos@ramosservicos.com.br,(71) 98776-5544,Gerente,48000,Nao sei medir resultado das campanhas,Sim mas quero melhorar,Ate 3 meses,sim
+27,2026-03-09 17:22,Priscila Nogueira,priscila@nogueiraeducacao.com.br,(11) 99887-3322,Socia,130000,Turmas com baixa taxa de comparecimento,Sim mas quero melhorar,Imediato,nao
+28,2026-03-09 17:40,Thiago Correia,thiago.correia@correiafitness.com.br,(31) 98554-7788,Socio,22000,Quero automatizar follow up,Nao,Imediato,sim
+29,2026-03-09 18:03,Larissa Fonseca,larissa@fonsecapet.com.br,(47) 99665-4433,Socia,35000,Perco cliente por falta de retorno,Nao,Ate 3 meses,sim
+30,2026-03-09 18:25,Marina Costa,marina.costa@lojaverde.com.br,(11) 98812-4477,CEO,120000,Nao consigo escalar o atendimento no WhatsApp,Nao,Imediato,sim
+31,2026-03-09 18:41,Bruno Sales,bruno.sales@saleseng.com.br,(11) 96543-2211,Diretor,105000,Processo comercial todo manual,Nao,Imediato,
+32,2026-03-09 19:00,Isabela Martins,isabela@martinsodonto.com.br,(31) 99778-2211,Socia,52000,Muito no-show nas consultas,Nao,Imediato,sim
+33,2026-03-09 19:18,Rafael Teixeira,rafael.teixeira@teixeirasolar.com.br,(62) 98112-3399,Socio,190000,Lead caro e time pequeno,Sim mas quero melhorar,Imediato,sim
+34,2026-03-09 19:35,Amanda Ribeiro,amanda.ribeiro@ribeirojoias.com.br,(11) 99223-1100,CEO,65000,Quero vender mais no WhatsApp,Nao,Ate 3 meses,sim
+35,2026-03-09 19:52,Paulo Henrique Braga,paulo@bragaadvogados.com.br,(31) 99445-6677,Socio,75000,Captacao depende so de indicacao,Nao,Sem previsao,sim
+36,2026-03-09 20:10,Carla Nunes,carla.nunes@nunesviagens.com.br,(21) 98334-5522,Gerente Comercial,58000,Demora pra responder orcamento,Nao,Imediato,sim
+37,2027-03-09 20:31,Vinicius Lopes,vinicius@lopesmarketing.com.br,(11) 97112-8844,Socio,88000,Quero escalar sem contratar mais gente,Sim mas quero melhorar,Imediato,sim
+38,2026-03-09 20:48,Debora Campos,debora@camposdecor.com.br,(31) 99556-1188,Socia,18000,Nao tenho tempo pra responder todo mundo,Nao,Ate 3 meses,sim
+39,2026-03-09 21:05,Henrique Vasconcelos,henrique@hvconsultoria.com.br,(11) 98998-7766,CEO,220000,Preciso de previsibilidade no funil,Sim mas quero melhorar,Imediato,nao
+40,2026-03-09 21:22,Simone Batista,simone.batista@batistaeventos.com.br,(85) 99112-4455,Socia,33000,Leads somem depois do primeiro contato,Nao,Ate 3 meses,sim
+41,2026-03-09 21:40,Alexandre Pires,alexandre@piresfarma.com.br,(11) 96112-3388,Diretor,145000,Equipe comercial sem padronizacao de abordagem,Nao,1 ano,sim
+42,2026-03-09 21:58,Juliana Ferreira,juferreira88@gmail.com,(31) 99741-2200,Socia,45000,Quero automatizar a captacao de leads,Sim mas quero melhorar,Ate 3 meses,sim

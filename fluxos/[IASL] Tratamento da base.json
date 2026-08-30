@@ -1,0 +1,971 @@
+{
+  "name": "[IASL] Tratamento da base",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8",
+          "mode": "list",
+          "cachedResultName": "base_leads_webinar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 941783332,
+          "mode": "list",
+          "cachedResultName": "base_leads_webinar.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit#gid=941783332"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        0
+      ],
+      "id": "9c27f124-04a3-4e6b-8a78-1ad036b2574f",
+      "name": "Consulta a base enviada para o teste",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "38e1c14b-e28b-47b5-910a-ee26d5553c21",
+              "leftValue": "={{ ($json.optin || '').toString().trim().toLowerCase() }}",
+              "rightValue": "sim",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        544,
+        0
+      ],
+      "id": "0c8e0753-ad0b-4c11-baae-3669edf3ae9a",
+      "name": "Filtra leads com opt-in marcado"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4c42ea5-441f-436a-84cc-0ed6d6b5115b",
+              "name": "Nome",
+              "value": "={{ $json.nome.trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "3dba3d81-fddf-4ff4-a5e1-3d4432bb7c31",
+              "name": "Email",
+              "value": "={{ \n  ['@gmail', '@hotmail', '@outlook', '@yahoo', '@icloud', '@live'].some(p => $json.email.trim().toLowerCase().endsWith(p))\n    ? $json.email.trim().toLowerCase() + '.com'\n    : $json.email.trim().toLowerCase()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "2b28c1b9-d33d-442e-8918-0b12fa051802",
+              "name": "WhatsApp",
+              "value": "={{ \n  ($json.whatsapp.replace(/\\D/g, '').length === 10 || $json.whatsapp.replace(/\\D/g, '').length === 11)\n    ? '55' + $json.whatsapp.replace(/\\D/g, '')\n    : $json.whatsapp.replace(/\\D/g, '')\n}}",
+              "type": "string"
+            },
+            {
+              "id": "8299ca04-fc01-45d8-b8a8-40adffaa2efe",
+              "name": "Timestamp",
+              "value": "={{ $json.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "915c9979-06f5-4343-89fc-332b0789170f",
+              "name": "Cargo",
+              "value": "={{ $json.cargo }}",
+              "type": "string"
+            },
+            {
+              "id": "902abc25-5625-4590-aab8-a7a8f9d2a279",
+              "name": "Faturamento",
+              "value": "={{ $json.faturamento_mensal }}",
+              "type": "string"
+            },
+            {
+              "id": "6e9d83c1-14c7-497d-9f3a-83bda4691422",
+              "name": "Desafio",
+              "value": "={{ $json.principal_desafio }}",
+              "type": "string"
+            },
+            {
+              "id": "e1dcc70a-cfef-46ce-bd73-53073dc7dbfa",
+              "name": "Automacao",
+              "value": "={{ $json.ja_usa_automacao }}",
+              "type": "string"
+            },
+            {
+              "id": "2b9be2a4-0cd7-4ba8-b1ea-a638d352557f",
+              "name": "Prazo",
+              "value": "={{ $json.prazo_implementar }}",
+              "type": "string"
+            },
+            {
+              "id": "079c7e44-acc0-4fd3-85f7-1e9a0413cf80",
+              "name": "Opt-in",
+              "value": "={{ $json.optin }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        816,
+        -160
+      ],
+      "id": "283064c6-3124-48b9-85d5-65ca18fbbf82",
+      "name": "Padronização de dados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bb92b2a6-b2e8-4295-9d23-2e413f2e76a6",
+              "leftValue": "={{ $json.Email.includes('@') && $json.Email.split('@')[1].includes('.') }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "c146b711-af93-4a35-8bae-e7925f9340e5",
+              "leftValue": "={{ $json.WhatsApp.length >= 10 && !$json.WhatsApp.includes('99999999') }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1152,
+        -160
+      ],
+      "id": "97657f4f-2dfa-4a36-960d-94aecf062312",
+      "name": "Validação de e-mail e telefone"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Timestamp",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1536,
+        -176
+      ],
+      "id": "155e2e82-b434-4fdd-8db9-b28b97012d65",
+      "name": "Organiza por conversão mais recente"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "Email",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        16
+      ],
+      "id": "1f8e12dd-97c4-4f62-bcca-470bacb730ca",
+      "name": "Remove leads duplicados e preserva a conversão mais recente"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a53e743b-0fcc-44bb-8b7d-8226f08e9ece",
+              "name": "pontuacao_cargo",
+              "value": "={{ ($json.Cargo.toLowerCase().includes('ceo') || $json.Cargo.toLowerCase().includes('soci') || $json.Cargo.toLowerCase().includes('diretor')) ? 25 : (($json.Cargo.toLowerCase().includes('gerente') || $json.Cargo.toLowerCase().includes('coordenador')) ? 15 : ($json.Cargo.toLowerCase().includes('analista') ? 5 : 0)) }}",
+              "type": "string"
+            },
+            {
+              "id": "9b143210-e703-4c78-b4df-55ee3323191b",
+              "name": "pontuacao_prazo",
+              "value": "={{ ($json.Prazo.toLowerCase().includes('imediato') || $json.Prazo.toLowerCase().includes('urgente')) ? 20 : ($json.Prazo.toLowerCase().includes('3 meses') ? 10 : 0) }}",
+              "type": "string"
+            },
+            {
+              "id": "41d62a36-d080-4762-8bc2-c25545095c54",
+              "name": "pontuacao_automacao",
+              "value": "={{ $json.Automacao.toLowerCase().includes('sim') ? 15 : 10 }}",
+              "type": "string"
+            },
+            {
+              "id": "71f5999e-670f-4401-8834-a68263d2e699",
+              "name": "pontuacao_faturamento",
+              "value": "={{ \n  (() => {\n    const s = ($json.Faturamento || '').toString().toLowerCase().trim();\n    if (s.includes('prefiro')) return 0;\n    \n    let valor = 0;\n    if (s.includes('k')) {\n      // Pega o número antes do k e multiplica por 1000 (ex: 80k -> 80 * 1000 = 80000)\n      const num = parseFloat(s.replace(/[^\\d.]/g, '')) || 0;\n      valor = num * 1000;\n    } else {\n      const numStr = s.replace(/[^\\d]/g, '');\n      const parsed = parseFloat(numStr) || 0;\n      valor = s.includes(',') ? parsed / 100 : parsed;\n    }\n    \n    if (valor > 100000) return 30;\n    if (valor > 10000) return 15;\n    return 0;\n  })()\n}}",
+              "type": "string"
+            },
+            {
+              "id": "fc5e510b-efc0-4a8c-afc8-6c2aac48b11f",
+              "name": "pontuacao_total",
+              "value": "={{ \n  (($json.Cargo.toLowerCase().includes('ceo') || $json.Cargo.toLowerCase().includes('soci') || $json.Cargo.toLowerCase().includes('diretor')) ? 25 : (($json.Cargo.toLowerCase().includes('gerente') || $json.Cargo.toLowerCase().includes('coordenador')) ? 15 : ($json.Cargo.toLowerCase().includes('analista') ? 5 : 0)))\n  +\n  (($json.Prazo.toLowerCase().includes('imediato') || $json.Prazo.toLowerCase().includes('urgente')) ? 20 : ($json.Prazo.toLowerCase().includes('3 meses') ? 10 : 0))\n  +\n  ($json.Automacao.toLowerCase().includes('sim') ? 15 : 10)\n  +\n  ((Number($json.Faturamento.toString().replace(/[^\\d]/g, '')) > 100000 || $json.Faturamento.toString().toLowerCase().includes('100k')) ? 30 : ((Number($json.Faturamento.toString().replace(/[^\\d]/g, '')) > 10000 || $json.Faturamento.toString().toLowerCase().includes('80k')) ? 15 : 0))\n}}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1536,
+        192
+      ],
+      "id": "8e06b6fd-125c-45a0-b140-8a0614b27725",
+      "name": "Define as regras de pontuação"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99c84df7-cf3e-45dd-a0e7-8d798764a7bd",
+              "name": "=trilha",
+              "value": "={{ $json.pontuacao_total >= 60 ? 'Quente' : ($json.pontuacao_total >= 30 ? 'Morno' : 'Frio') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1760,
+        192
+      ],
+      "id": "1731655a-6994-4d94-b3c4-aa5e40c72ac0",
+      "name": "Define a trilha"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "913b5b86-1923-41f8-a234-3d706f8f9219",
+      "name": "Gatilho manual"
+    },
+    {
+      "parameters": {
+        "content": "## Fluxo que realiza o tratamento da base .csv",
+        "height": 688,
+        "width": 2944,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -240
+      ],
+      "id": "cdf0b6f3-1625-4de7-a928-6ef2957b990f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "Timestamp",
+              "field2": "Timestamp"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2576,
+        -80
+      ],
+      "id": "42fe9964-9675-424d-83fa-65415c246598",
+      "name": "Separa os três leads descartados"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f85266e0-6569-4c81-bc3d-1fe0069c59a4",
+              "name": "motivo_descarte",
+              "value": "Sem consentimento LGPD",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        544,
+        192
+      ],
+      "id": "1c3edcb7-796b-4f7a-840b-196aabe320be",
+      "name": "Define motivo de descarte por LGPD"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84d95a21-800a-4c40-9457-d1099961891e",
+              "name": "motivo_descarte",
+              "value": "Lead duplicado",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        2576,
+        192
+      ],
+      "id": "63af2c80-ffce-4b5d-a49a-61db280b24c6",
+      "name": "Define motivo de descarte por duplicidade"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49c6b915-c874-4888-a658-475c3f2a80c4",
+              "name": "motivo_descarte",
+              "value": "E-mail ou WhatsApp inválido/fictício",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1152,
+        16
+      ],
+      "id": "3e33c514-7d94-40fa-b7ee-b552160e2fa0",
+      "name": "Define motivo de descarte por e-mail ou telefone inválido"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8",
+          "mode": "list",
+          "cachedResultName": "base_leads_webinar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1457741622,
+          "mode": "list",
+          "cachedResultName": "Elegíveis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit#gid=1457741622"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.Timestamp }}",
+            "nome": "={{ $json.Nome }}",
+            "email": "={{ $json.Email }}",
+            "whatsapp": "={{ $json.WhatsApp }}",
+            "cargo": "={{ $json.Cargo }}",
+            "principal_desafio": "={{ $json.Desafio }}",
+            "faturamento_mensal": "={{ $json.Faturamento }}",
+            "ja_usa_automacao": "={{ $json.Automacao }}",
+            "prazo_implementar": "={{ $json.Prazo }}",
+            "optin": "={{ $json[\"Opt-in\"].toLowerCase() }}",
+            "pontuacao": "={{ $json.pontuacao_total }}",
+            "trilha": "={{ $json.trilha }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "whatsapp",
+              "displayName": "whatsapp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cargo",
+              "displayName": "cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "faturamento_mensal",
+              "displayName": "faturamento_mensal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "principal_desafio",
+              "displayName": "principal_desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ja_usa_automacao",
+              "displayName": "ja_usa_automacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prazo_implementar",
+              "displayName": "prazo_implementar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "optin",
+              "displayName": "optin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pontuacao",
+              "displayName": "pontuacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "trilha",
+              "displayName": "trilha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1968,
+        192
+      ],
+      "id": "2d25263c-63dc-4f21-b86c-23d5d512b0fe",
+      "name": "Salva na página \"Elegíveis\"",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8",
+          "mode": "list",
+          "cachedResultName": "base_leads_webinar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2027147872,
+          "mode": "list",
+          "cachedResultName": "Descartados",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Sgwq2ltOmOjBUslA9ZjV3n33Sd66hJdPeQG8nQWVFX8/edit#gid=2027147872"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.Timestamp || $json.timestamp}}",
+            "nome": "={{ $json.Nome || $json.nome }}",
+            "Motivo do descarte": "={{ $json.motivo_descarte }}",
+            "optin": "={{ $json['Opt-in'] || $json.optin }}",
+            "prazo_implementar": "={{ $json.Prazo || $json.prazo_implementar }}",
+            "ja_usa_automacao": "={{ $json.Automacao || $json.ja_usa_automacao }}",
+            "principal_desafio": "={{ $json.Desafio || $json.principal_desafio }}",
+            "faturamento_mensal": "={{ $json.Faturamento || $json.faturamento_mensal }}",
+            "cargo": "={{ $json.Cargo || $json.cargo }}",
+            "whatsapp": "={{ $json.WhatsApp || $json.whatsapp }}",
+            "email": "={{ $json.Email || $json.email }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "whatsapp",
+              "displayName": "whatsapp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cargo",
+              "displayName": "cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "faturamento_mensal",
+              "displayName": "faturamento_mensal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "principal_desafio",
+              "displayName": "principal_desafio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ja_usa_automacao",
+              "displayName": "ja_usa_automacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prazo_implementar",
+              "displayName": "prazo_implementar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "optin",
+              "displayName": "optin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Motivo do descarte",
+              "displayName": "Motivo do descarte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1152,
+        192
+      ],
+      "id": "6f7984d0-1da3-4dd8-93e4-24ac4bad9777",
+      "name": "Salva na página \"Descartados\"",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "F5smo1ylrkCeXHOY",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "q7HqZ2dL256u3ASF",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/q7HqZ2dL256u3ASF",
+          "cachedResultName": "[IASL] Disparo de WhatsApp"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2208,
+        192
+      ],
+      "id": "88c5b933-b891-4745-bbb5-f1fa9d8ae17d",
+      "name": "Envia para o subfluxo de disparo"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Consulta a base enviada para o teste": {
+      "main": [
+        [
+          {
+            "node": "Filtra leads com opt-in marcado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra leads com opt-in marcado": {
+      "main": [
+        [
+          {
+            "node": "Padronização de dados",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Define motivo de descarte por LGPD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Padronização de dados": {
+      "main": [
+        [
+          {
+            "node": "Validação de e-mail e telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validação de e-mail e telefone": {
+      "main": [
+        [
+          {
+            "node": "Organiza por conversão mais recente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Define motivo de descarte por e-mail ou telefone inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Organiza por conversão mais recente": {
+      "main": [
+        [
+          {
+            "node": "Remove leads duplicados e preserva a conversão mais recente",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Separa os três leads descartados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove leads duplicados e preserva a conversão mais recente": {
+      "main": [
+        [
+          {
+            "node": "Separa os três leads descartados",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Define as regras de pontuação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define as regras de pontuação": {
+      "main": [
+        [
+          {
+            "node": "Define a trilha",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define a trilha": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Elegíveis\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gatilho manual": {
+      "main": [
+        [
+          {
+            "node": "Consulta a base enviada para o teste",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separa os três leads descartados": {
+      "main": [
+        [
+          {
+            "node": "Define motivo de descarte por duplicidade",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define motivo de descarte por LGPD": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define motivo de descarte por duplicidade": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define motivo de descarte por e-mail ou telefone inválido": {
+      "main": [
+        [
+          {
+            "node": "Salva na página \"Descartados\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salva na página \"Elegíveis\"": {
+      "main": [
+        [
+          {
+            "node": "Envia para o subfluxo de disparo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "189906dd-f114-4770-890d-9c580667928b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c604a34415fc2332b35766d68c39e77683d6cc0d21b6502df169f58f20961a9"
+  },
+  "nodeGroups": [],
+  "id": "xTa7JOULUHQLxUuI",
+  "tags": []
+}

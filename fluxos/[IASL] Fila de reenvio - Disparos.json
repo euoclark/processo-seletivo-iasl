@@ -1,0 +1,420 @@
+{
+  "name": "[IASL] Fila de reenvio - Disparos",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "0a0848eb-1cec-431d-9f91-2c0c4ed7706c",
+      "name": "A cada 15min"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "disparos_pendentes",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        192,
+        0
+      ],
+      "id": "c36bc4bd-88b2-4e68-9326-3f752e7b5bd8",
+      "name": "Consulta a fila de reenvio",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        768,
+        0
+      ],
+      "id": "64b7d332-0cc5-476d-a657-af3e5285222c",
+      "name": "Passa um por vez"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fcdca87b-d5e2-4238-88f1-24e4b09bd0a6",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "sucesso",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "4c8669f7-911a-41da-8bca-685513403b95",
+              "leftValue": "={{ $json.tentativas || 0 }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        0
+      ],
+      "id": "885679a4-6e7e-4508-a6c8-a3a3ad3f787c",
+      "name": "Filtra leads que já foram enviados"
+    },
+    {
+      "parameters": {
+        "content": "## Fila de reenvio de disparos\n",
+        "height": 976,
+        "width": 1536,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "19d142d3-cf9a-4315-8b50-94559cb74bdb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "disparos_pendentes",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Passa um por vez').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status",
+              "fieldValue": "={{ ((Number($('Passa um por vez').item.json.tentativas) || 0) + 1) >= 3 ? 'falha definitiva' : 'falha temporaria' }}"
+            },
+            {
+              "fieldId": "tentativas",
+              "fieldValue": "={{ ($('Passa um por vez').item.json.tentativas || 0) + 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        768,
+        352
+      ],
+      "id": "3a30a5ae-7f10-44f5-b704-01f2e92626eb",
+      "name": "Atualiza colunas \"tentativas\" e \"status\"",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "disparos_pendentes",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Passa um por vez').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "status",
+              "fieldValue": "sucesso"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        144
+      ],
+      "id": "1b88d6ea-7686-430b-b14b-6a0026f15c72",
+      "name": "Atualiza coluna \"status\"",
+      "credentials": {
+        "supabaseApi": {
+          "id": "gleCP7E2ZvZJo9Wy",
+          "name": "Supabase de teste - IA Sem Limites"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "content": "=🚨 ALERTA DE FALHA DEFINITIVA\n\nO lead {{ $('Passa um por vez').item.json.nome }} ({{ $('Passa um por vez').item.json.trilha }}) não pôde receber a mensagem de WhatsApp após 3 tentativas.\n\nTelefone: {{ $('Passa um por vez').item.json.telefone }}\n\nE-mail: {{ $('Passa um por vez').item.json.email }}\n\n🛠️ Ações Recomendadas:\n\n1. Comercial: Realizar contato manual imediato (telefone/e-mail) para não perder o timing da inscrição;\n\n2. Técnico: Verificar log de erro no n8n e verificar status da Evolution API.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        544
+      ],
+      "id": "9c308b01-e941-43cb-8364-818d31c0414d",
+      "name": "Envia alerta no discord",
+      "webhookId": "e5d8e49c-f378-4b5c-8585-63a913156e17"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "89f9a349-d2be-4b15-87a3-8be606410123",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "falha definitiva",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        560
+      ],
+      "id": "8b02c9d0-4cf8-4897-b5a5-efb403158784",
+      "name": "Status como \"falha definitiva\"?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://seudominio.com.br/message/sendText/instancia",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "apikey",
+              "value": "chave-api"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.telefone }}\",\n  \"textMessage\": {\n    \"text\": \"{{ $json.mensagem }}\"\n  },\n  \"delay\": 1500,\n  \"linkPreview\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        768,
+        160
+      ],
+      "id": "fd8b9457-3332-477b-989f-6847dc224e1a",
+      "name": "Realiza o disparo",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "A cada 15min": {
+      "main": [
+        [
+          {
+            "node": "Consulta a fila de reenvio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta a fila de reenvio": {
+      "main": [
+        [
+          {
+            "node": "Filtra leads que já foram enviados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Passa um por vez": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Realiza o disparo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra leads que já foram enviados": {
+      "main": [
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza colunas \"tentativas\" e \"status\"": {
+      "main": [
+        [
+          {
+            "node": "Status como \"falha definitiva\"?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envia alerta no discord": {
+      "main": [
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza coluna \"status\"": {
+      "main": [
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status como \"falha definitiva\"?": {
+      "main": [
+        [
+          {
+            "node": "Envia alerta no discord",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Passa um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Realiza o disparo": {
+      "main": [
+        [
+          {
+            "node": "Atualiza coluna \"status\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Atualiza colunas \"tentativas\" e \"status\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d954e5ef-4660-4ae2-954f-34731b4dfc7b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8c604a34415fc2332b35766d68c39e77683d6cc0d21b6502df169f58f20961a9"
+  },
+  "nodeGroups": [],
+  "id": "63ZVgSPKsR0a94Yq",
+  "tags": []
+}
